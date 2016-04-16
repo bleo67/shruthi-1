@@ -155,6 +155,7 @@ PageDefinition Editor::page_definition_[] = {
 
 /* <static> */
 ParameterPage Editor::current_page_ = PAGE_FILTER_FILTER;
+//ParameterPage Editor::current_page_ = PAGE_MOD_MATRIX; <---for XT use bleo
 ParameterPage Editor::last_visited_page_[] = {
     PAGE_OSC_OSC_1,
     PAGE_FILTER_FILTER,
@@ -614,9 +615,9 @@ bool Editor::FinishLoadingPatch() {
     part.system_settings().EepromSave();
   }
   // When we are not playing, load the sequence parameters.
-  if (!part.running()) {
-    Storage::LoadSequence(edited_item_number());
-  }
+
+    Storage::LoadSequence(edited_item_number()); //bleo
+  
   // Reset the snap position of all pots.
   memset(snapped_, false, sizeof(snapped_));
   deferred_load_ = 0xffff;
@@ -1305,19 +1306,20 @@ const prog_uint8_t pentatonic_shift[] PROGMEM = {
   -12, -10, -8, -5, -3, 0, 2, 4, 7, 9, 12
 };
 
-const prog_uint8_t bhairav_shift[] PROGMEM = {
-  -12, -11, -8, -7, -5, -4, -1, 0, 1, 4, 5, 7, 8, 11, 12
+const prog_uint8_t minor_shift[] PROGMEM = {  //bleo
+  -12, -10, -9, -7, -5, -4, -2, 0, 2, 3, 5, 7, 8, 10, 12  //bleo
 };
 
-const prog_uint8_t chromatic_shift[] PROGMEM = {
-  -12, -5 , -2, -1, 0, 1, 2, 7, 12
+const prog_uint8_t major_shift[] PROGMEM = {  //bleo
+  -12, -10 , -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12  //bleo
+
 };
 
 const prog_uint8_t ranges[] PROGMEM = {
   5,
   sizeof(pentatonic_shift),
-  sizeof(bhairav_shift),
-  sizeof(chromatic_shift)
+  sizeof(minor_shift),  //bleo
+  sizeof(major_shift)  //bleo
 };
 
 void Editor::OnJamPageInput(uint8_t knob_index, uint8_t value) {
@@ -1330,8 +1332,8 @@ void Editor::UpdateJamNote() {
   int16_t note = jam_note_root_;
   note += static_cast<int8_t>(pgm_read_byte(octave_shift + jam_mode_shifts_[0]));
   note += static_cast<int8_t>(pgm_read_byte(pentatonic_shift + jam_mode_shifts_[1]));
-  note += static_cast<int8_t>(pgm_read_byte(bhairav_shift + jam_mode_shifts_[2]));
-  note += static_cast<int8_t>(pgm_read_byte(chromatic_shift + jam_mode_shifts_[3]));
+  note += static_cast<int8_t>(pgm_read_byte(minor_shift + jam_mode_shifts_[2]));  //bleo
+  note += static_cast<int8_t>(pgm_read_byte(major_shift + jam_mode_shifts_[3]));  //bleo
   while (note < 12) {
     note += 12;
   }

@@ -803,7 +803,7 @@ void Part::ProcessBlock() {
           ResourcesManager::Lookup<int16_t, uint8_t>(
               LUT_RES_GROOVE_SWING + sequencer_settings_.seq_groove_template,
               arp_seq_step_),
-          sequencer_settings_.seq_groove_amount) >> 1;
+          sequencer_settings_.seq_groove_amount); //bleo 
       Clock(true);
       clock.Update(sequencer_settings_.seq_tempo);
     }

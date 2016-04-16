@@ -399,7 +399,7 @@ extern const prog_uint8_t chr_res_special_characters[] PROGMEM;
 #define STR_RES_CLASSIC_FCD72 289  // classic (fcd72)
 #define STR_RES__SHRUTHI_XT 290  // shruthi xt
 #define STR_RES_FULL_CONTROL 291  // (full control)
-#define STR_RES_LETS_JAM_ 292  // let's jam!
+#define STR_RES_LETS_JAM_ 292  // Tune in Tokyo!
 #define STR_RES_EXTERN 293  // extern
 #define STR_RES_SUM 294  // sum
 #define STR_RES_SYNC 295  // sync
